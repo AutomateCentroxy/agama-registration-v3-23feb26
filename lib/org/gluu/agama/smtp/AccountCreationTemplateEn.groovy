@@ -46,7 +46,7 @@ class AccountCreationTemplateEn {
                           </a>
                         </div>
 
-                        <p>If you have any questions, weâre just a message away. Thank you for choosing Phi Wallet!</p>
+                        <p>If you have any questions, we are just a message away. Thank you for choosing Phi Wallet!</p>
 
                         <p style="margin-top:30px;">Kind regards,<br>Phi Wallet Team</p>
                       </td>
