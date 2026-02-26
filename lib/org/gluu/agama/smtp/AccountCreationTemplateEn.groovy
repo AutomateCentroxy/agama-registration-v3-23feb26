@@ -30,7 +30,7 @@ class AccountCreationTemplateEn {
                         <p>Dear User,</p>
                         <p>Welcome to Phi Wallet! Your journey to financial protection and growth starts now.</p>
 
-                        <p><strong>Your Account Details:</strong></p>
+                        <p><strong>Your username:</strong></p>
                         <div style="text-align:center;margin:30px 0;">
                           <div style="display:inline-block;background-color:#f5f5f5;color:#AD9269;font-size:28px;font-weight:600;letter-spacing:2px;padding:10px 20px;border-radius:4px;">
                             """ + userName + """
