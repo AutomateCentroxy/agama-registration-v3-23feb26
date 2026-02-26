@@ -541,7 +541,6 @@ public class JansUserRegistration extends NewUserRegistration {
         try {
             logger.info("=== isPhoneUnique() called for user: {}, phone: {} ===", username, phone);
 
-            // Force CDI bean load here (defensive)
             UserService userService = CdiUtil.bean(UserService.class);
             if (userService == null) {
                 logger.error("UserService is NULL in isPhoneUnique()");
@@ -552,19 +551,28 @@ public class JansUserRegistration extends NewUserRegistration {
             logger.info("Normalized phone: {}", normalizedPhone);
 
             List<User> users = userService.getUsersByAttribute("mobile", normalizedPhone, true, 10);
-            logger.info("LDAP search result: {}", users != null ? users.size() : "NULL");
+            logger.info("LDAP search result size: {}", users != null ? users.size() : "NULL");
 
             if (users != null && !users.isEmpty()) {
                 for (User u : users) {
-                    logger.info("Found user: {}", u.getUserId());
-                    if (!u.getUserId().equalsIgnoreCase(username)) {
-                        logger.info("Phone {} is NOT unique. Already used by {}", phone, u.getUserId());
+
+                    // Skip same user (important for updates)
+                    if (u.getUserId().equalsIgnoreCase(username)) {
+                        continue;
+                    }
+
+                    String status = getSingleValuedAttr(u, jansStatus);
+                    logger.info("Found user {} with status {}", u.getUserId(), status);
+
+                    // 🔥 ONLY block if user is ACTIVE
+                    if ("active".equalsIgnoreCase(status)) {
+                        logger.info("Phone {} already used by ACTIVE user {}", phone, u.getUserId());
                         return false;
                     }
                 }
             }
 
-            logger.info("Phone {} is unique", phone);
+            logger.info("Phone {} allowed (either not exists or user inactive)", phone);
             return true;
 
         } catch (Exception e) {
@@ -663,82 +671,6 @@ public class JansUserRegistration extends NewUserRegistration {
             result.put("status", "error");
             result.put("message", e.getMessage());
             return result;
-        }
-    }
-
-    @Override
-    public boolean sendAccountCreationNotificationEmail(String to, String username, String lang) {
-        try {
-            ConfigurationService configService = CdiUtil.bean(ConfigurationService.class);
-            SmtpConfiguration smtpConfig = configService.getConfiguration().getSmtpConfiguration();
-
-            if (smtpConfig == null) {
-                logger.error("SMTP configuration missing.");
-                return false;
-            }
-
-            String preferredLang = (lang != null && !lang.isEmpty()) ? lang.toLowerCase() : "en";
-            Map<String, String> templateData = null;
-
-            switch (preferredLang) {
-                case "ar":
-                    templateData = AccountCreationTemplateAr.get(username);
-                    break;
-                case "es":
-                    templateData = AccountCreationTemplateEs.get(username);
-                    break;
-                case "fr":
-                    templateData = AccountCreationTemplateFr.get(username);
-                    break;
-                case "id":
-                    templateData = AccountCreationTemplateId.get(username);
-                    break;
-                case "pt":
-                    templateData = AccountCreationTemplatePt.get(username);
-                    break;
-                default:
-                    templateData = AccountCreationTemplateEn.get(username);
-                    break;
-            }
-
-            if (templateData == null || !templateData.containsKey("body")) {
-                logger.error("No email template found for language: {}", preferredLang);
-                return false;
-            }
-
-            String subject = templateData.getOrDefault("subject", "Your Username Information");
-            String htmlBody = templateData.get("body");
-
-            if (htmlBody == null || htmlBody.isEmpty()) {
-                logger.error("Email HTML body is empty for language: {}", preferredLang);
-                return false;
-            }
-
-            // Plain text version
-            String textBody = htmlBody.replaceAll("\\<.*?\\>", "");
-
-            MailService mailService = CdiUtil.bean(MailService.class);
-
-            boolean sent = mailService.sendMailSigned(
-                    smtpConfig.getFromEmailAddress(),
-                    smtpConfig.getFromName(),
-                    to,
-                    null,
-                    subject,
-                    textBody,
-                    htmlBody);
-
-            if (sent) {
-                LogUtils.log("Localized username update email sent successfully to %", to);
-            } else {
-                LogUtils.log("Failed to send localized username update email to %", to);
-            }
-
-            return sent;
-
-        } catch (Exception e) {
-            LogUtils.log("Failed to send username update email: %", e.getMessage());
-            return false;
         }
     }
 }
