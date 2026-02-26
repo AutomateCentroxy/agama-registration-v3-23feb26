@@ -19,7 +19,15 @@
 				"agamaData": {
 					"isTopLevelFlow": true,
 					"basepath": "",
-					"configParams": "{\n  \"ACCOUNT_SID\": \"PUT_YOUR_TWILIO_ACCOUNT_SID_HERE\",\n  \"AUTH_TOKEN\": \"PUT_YOUR_TWILIO_AUTH_TOKEN_HERE\",\n  \"FROM_NUMBER\": \"PUT_YOUR_TWILIO_FROM_NUMBER_HERE\"\n}",
+					"configParams": {
+						"ACCOUNT_SID": "PUT_YOUR_TWILIO_ACCOUNT_SID_HERE",
+						"AUTH_TOKEN": "PUT_YOUR_TWILIO_AUTH_TOKEN_HERE",
+						"FROM_NUMBER": "PUT_YOUR_TWILIO_FROM_NUMBER_HERE",
+						"FROM_NUMBER_US": "PUT_US_SENDER_NUMBER_HERE",
+						"FROM_NUMBER_RESTRICTED_COUNTRIES": "PUT_RESTRICTED_SENDER_NUMBER_HERE",
+						"US_COUNTRY_CODES": "PUT_US_COUNTRY_CODES_HERE",
+						"RESTRICTED_COUNTRY_CODES": "PUT_RESTRICTED_CODES_HERE"
+					},
 					"nodeIcon": "material-symbols:line-start-square",
 					"timeout": "300000",
 					"inputs": "",
@@ -35,7 +43,7 @@
 				"width": 170,
 				"height": 123
 			},
-			"selected": false,
+			"selected": true,
 			"dragging": false
 		},
 		{
@@ -3939,7 +3947,7 @@
 				"width": 170,
 				"height": 123
 			},
-			"selected": true,
+			"selected": false,
 			"dragging": false
 		},
 		{
@@ -5925,8 +5933,8 @@
 		}
 	],
 	"viewport": {
-		"x": -5326.718579773768,
-		"y": -1160.211115868672,
-		"zoom": 1.0570180405613803
+		"x": 2272.3409731827933,
+		"y": 786.0141572732347,
+		"zoom": 1.0988542175768798
 	}
 }
