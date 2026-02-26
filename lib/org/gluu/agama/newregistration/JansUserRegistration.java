@@ -561,7 +561,7 @@ public class JansUserRegistration extends NewUserRegistration {a
                         continue;
                     }
 
-                    String status = getSingleValuedAttr(u, jansStatus);
+                    String status = getSingleValuedAttr(u, USER_STATUS);
                     logger.info("Found user {} with status {}", u.getUserId(), status);
 
                     // 🔥 ONLY block if user is ACTIVE
