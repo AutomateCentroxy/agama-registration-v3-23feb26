@@ -26,7 +26,7 @@ public abstract class NewUserRegistration {
 
     public abstract boolean isPhoneUnique(String userName, String phone);
 
-
+    public abstract boolean sendAccountCreationNotificationEmail(String to, String userName, String lang);
     
     // public static UserRegistration getInstance(){
     //     return  JansUserRegistration.getInstance();
