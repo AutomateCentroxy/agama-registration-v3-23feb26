@@ -28,7 +28,7 @@ class AccountCreationTemplateEs {
                         <p>Hola,</p>
                         <p>¡Bienvenido/a a <strong>Phi Wallet</strong>! Tu camino hacia la protección de tu futuro financiero comienza ahora.</p>
 
-                        <p><strong>Detalles de tu cuenta:</strong></p>
+                        <p><strong>Su nombre de usuario:</strong></p>
                         <div style="text-align:center;margin:30px 0;">
                           <div style="display:inline-block;background-color:#f5f5f5;color:#AD9269;font-size:28px;font-weight:600;letter-spacing:2px;padding:10px 20px;border-radius:4px;">
                             """ + userName + """
