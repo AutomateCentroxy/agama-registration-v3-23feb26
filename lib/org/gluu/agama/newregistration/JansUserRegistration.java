@@ -35,7 +35,7 @@ import com.twilio.type.PhoneNumber;
 
 
 
-public class JansUserRegistration extends NewUserRegistration {
+public class JansUserRegistration extends NewUserRegistration {a
 
     private static final Logger logger = LoggerFactory.getLogger(JansUserRegistration.class);
     
